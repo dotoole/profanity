@@ -399,11 +399,11 @@ win_show_incomming_msg(const char * const from, const char * const message,
         }
 
         if (strncmp(message, "/me ", 4) == 0) {
-            wattron(win, COLOUR_THEM);
+            wattron(win, theme_them());
             wprintw(win, "*%s ", from);
             wprintw(win, message + 4);
             wprintw(win, "\n");
-            wattroff(win, COLOUR_THEM);
+            wattroff(win, theme_them());
         } else {
             _win_show_user(win, from, 1);
             _win_show_message(win, message);
@@ -436,11 +436,11 @@ win_show_incomming_msg(const char * const from, const char * const message,
         }
 
         if (strncmp(message, "/me ", 4) == 0) {
-            wattron(win, COLOUR_THEM);
+            wattron(win, theme_them());
             wprintw(win, "*%s ", from);
             wprintw(win, message + 4);
             wprintw(win, "\n");
-            wattroff(win, COLOUR_THEM);
+            wattroff(win, theme_them());
         } else {
             _win_show_user(win, from, 1);
             _win_show_message(win, message);
@@ -490,11 +490,11 @@ win_show_gone(const char * const from)
     if (win_index < NUM_WINS) {
         win = _wins[win_index].win;
         _win_show_time(win);
-        wattron(win, COLOUR_GONE);
+        wattron(win, theme_gone());
         wprintw(win, "*%s ", from);
         wprintw(win, "has left the conversation.");
         wprintw(win, "\n");
-        wattroff(win, COLOUR_GONE);
+        wattroff(win, theme_gone());
         if (win_index == _curr_prof_win) {
             dirty = TRUE;
         }
@@ -634,11 +634,11 @@ win_show_outgoing_msg(const char * const from, const char * const to,
 
     _win_show_time(win);
     if (strncmp(message, "/me ", 4) == 0) {
-        wattron(win, COLOUR_ME);
+        wattron(win, theme_me());
         wprintw(win, "*%s ", from);
         wprintw(win, message + 4);
         wprintw(win, "\n");
-        wattroff(win, COLOUR_ME);
+        wattroff(win, theme_me());
     } else {
         _win_show_user(win, from, 0);
         _win_show_message(win, message);
@@ -668,14 +668,14 @@ win_show_room_roster(const char * const room)
     GList *roster = room_get_roster(room);
 
     if ((roster == NULL) || (g_list_length(roster) == 0)) {
-        wattron(win, COLOUR_ROOMINFO);
+        wattron(win, theme_roominfo());
         wprintw(win, "You are alone!\n");
-        wattroff(win, COLOUR_ROOMINFO);
+        wattroff(win, theme_roominfo());
     } else {
-        wattron(win, COLOUR_ROOMINFO);
+        wattron(win, theme_roominfo());
         wprintw(win, "Room occupants:\n");
-        wattroff(win, COLOUR_ROOMINFO);
-        wattron(win, COLOUR_ONLINE);
+        wattroff(win, theme_roominfo());
+        wattron(win, theme_online());
 
         while (roster != NULL) {
             wprintw(win, "%s", roster->data);
@@ -686,7 +686,7 @@ win_show_room_roster(const char * const room)
         }
 
         wprintw(win, "\n");
-        wattroff(win, COLOUR_ONLINE);
+        wattroff(win, theme_online());
     }
 
     if (win_index == _curr_prof_win)
@@ -700,9 +700,9 @@ win_show_room_member_offline(const char * const room, const char * const nick)
     WINDOW *win = _wins[win_index].win;
 
     _win_show_time(win);
-    wattron(win, COLOUR_OFFLINE);
+    wattron(win, theme_offline());
     wprintw(win, "-- %s has left the room.\n", nick);
-    wattroff(win, COLOUR_OFFLINE);
+    wattroff(win, theme_offline());
 
     if (win_index == _curr_prof_win)
         dirty = TRUE;
@@ -716,9 +716,9 @@ win_show_room_member_online(const char * const room, const char * const nick,
     WINDOW *win = _wins[win_index].win;
 
     _win_show_time(win);
-    wattron(win, COLOUR_ONLINE);
+    wattron(win, theme_online());
     wprintw(win, "++ %s has joined the room.\n", nick);
-    wattroff(win, COLOUR_ONLINE);
+    wattroff(win, theme_online());
 
     if (win_index == _curr_prof_win)
         dirty = TRUE;
@@ -746,9 +746,9 @@ win_show_room_member_nick_change(const char * const room,
     WINDOW *win = _wins[win_index].win;
 
     _win_show_time(win);
-    wattron(win, COLOUR_THEM);
+    wattron(win, theme_them());
     wprintw(win, "** %s is now known as %s\n", old_nick, nick);
-    wattroff(win, COLOUR_THEM);
+    wattroff(win, theme_them());
 
     if (win_index == _curr_prof_win)
         dirty = TRUE;
@@ -761,9 +761,9 @@ win_show_room_nick_change(const char * const room, const char * const nick)
     WINDOW *win = _wins[win_index].win;
 
     _win_show_time(win);
-    wattron(win, COLOUR_ME);
+    wattron(win, theme_me());
     wprintw(win, "** You are now known as %s\n", nick);
-    wattroff(win, COLOUR_ME);
+    wattroff(win, theme_me());
 
     if (win_index == _curr_prof_win)
         dirty = TRUE;
@@ -805,11 +805,11 @@ win_show_room_message(const char * const room_jid, const char * const nick,
     _win_show_time(win);
     if (strcmp(nick, room_get_nick_for_room(room_jid)) != 0) {
         if (strncmp(message, "/me ", 4) == 0) {
-            wattron(win, COLOUR_THEM);
+            wattron(win, theme_them());
             wprintw(win, "*%s ", nick);
             wprintw(win, message + 4);
             wprintw(win, "\n");
-            wattroff(win, COLOUR_THEM);
+            wattroff(win, theme_them());
         } else {
             _win_show_user(win, nick, 1);
             _win_show_message(win, message);
@@ -817,11 +817,11 @@ win_show_room_message(const char * const room_jid, const char * const nick,
 
     } else {
         if (strncmp(message, "/me ", 4) == 0) {
-            wattron(win, COLOUR_ME);
+            wattron(win, theme_me());
             wprintw(win, "*%s ", nick);
             wprintw(win, message + 4);
             wprintw(win, "\n");
-            wattroff(win, COLOUR_ME);
+            wattroff(win, theme_me());
         } else {
             _win_show_user(win, nick, 0);
             _win_show_message(win, message);
@@ -868,9 +868,9 @@ win_show_room_subject(const char * const room_jid, const char * const subject)
     int win_index = _find_prof_win_index(room_jid);
     WINDOW *win = _wins[win_index].win;
 
-    wattron(win, COLOUR_ROOMINFO);
+    wattron(win, theme_roominfo());
     wprintw(win, "Room subject: ");
-    wattroff(win, COLOUR_ROOMINFO);
+    wattroff(win, theme_roominfo());
     wprintw(win, "%s\n", subject);
 
     // currently in groupchat window
@@ -890,9 +890,9 @@ win_show_room_broadcast(const char * const room_jid, const char * const message)
     int win_index = _find_prof_win_index(room_jid);
     WINDOW *win = _wins[win_index].win;
 
-    wattron(win, COLOUR_ROOMINFO);
+    wattron(win, theme_roominfo());
     wprintw(win, "Room message: ");
-    wattroff(win, COLOUR_ROOMINFO);
+    wattroff(win, theme_roominfo());
     wprintw(win, "%s\n", message);
 
     // currently in groupchat window
@@ -921,9 +921,9 @@ win_bad_show(const char * const msg)
 {
     WINDOW *win = _wins[_curr_prof_win].win;
     _win_show_time(win);
-    wattron(win, COLOUR_ERROR);
+    wattron(win, theme_error());
     wprintw(win, "%s\n", msg);
-    wattroff(win, COLOUR_ERROR);
+    wattroff(win, theme_error());
 
     dirty = TRUE;
 }
@@ -981,9 +981,9 @@ win_disconnected(void)
         if (strcmp(_wins[i].from, "") != 0) {
             WINDOW *win = _wins[i].win;
             _win_show_time(win);
-            wattron(win, COLOUR_ERROR);
+            wattron(win, theme_error());
             wprintw(win, "%s\n", "Lost connection.");
-            wattroff(win, COLOUR_ERROR);
+            wattroff(win, theme_error());
 
             // if current win, set dirty
             if (i == _curr_prof_win) {
@@ -1199,9 +1199,9 @@ cons_bad_show(const char * const msg, ...)
     GString *fmt_msg = g_string_new(NULL);
     g_string_vprintf(fmt_msg, msg, arg);
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_ERROR);
+    wattron(_cons_win, theme_error());
     wprintw(_cons_win, "%s\n", fmt_msg->str);
-    wattroff(_cons_win, COLOUR_ERROR);
+    wattroff(_cons_win, theme_error());
     g_string_free(fmt_msg, TRUE);
     va_end(arg);
 
@@ -1284,7 +1284,7 @@ _create_windows(void)
     struct prof_win cons;
     strcpy(cons.from, CONS_WIN_TITLE);
     cons.win = newpad(PAD_SIZE, cols);
-    wbkgd(cons.win, COLOUR_TEXT);
+    wbkgd(cons.win, theme_text());
     cons.y_pos = 0;
     cons.paged = 0;
     cons.unread = 0;
@@ -1302,7 +1302,7 @@ _create_windows(void)
         struct prof_win chat;
         strcpy(chat.from, "");
         chat.win = newpad(PAD_SIZE, cols);
-        wbkgd(chat.win, COLOUR_TEXT);
+        wbkgd(chat.win, theme_text());
         chat.y_pos = 0;
         chat.paged = 0;
         chat.unread = 0;
@@ -1419,39 +1419,39 @@ _cons_splash_logo(void)
     wprintw(_cons_win, "Welcome to\n");
 
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_SPLASH);
+    wattron(_cons_win, theme_splash());
     wprintw(_cons_win, "                   ___            _           \n");
-    wattroff(_cons_win, COLOUR_SPLASH);
+    wattroff(_cons_win, theme_splash());
 
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_SPLASH);
+    wattron(_cons_win, theme_splash());
     wprintw(_cons_win, "                  / __)          (_)_         \n");
-    wattroff(_cons_win, COLOUR_SPLASH);
+    wattroff(_cons_win, theme_splash());
 
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_SPLASH);
+    wattron(_cons_win, theme_splash());
     wprintw(_cons_win, " ____   ____ ___ | |__ ____ ____  _| |_ _   _ \n");
-    wattroff(_cons_win, COLOUR_SPLASH);
+    wattroff(_cons_win, theme_splash());
 
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_SPLASH);
+    wattron(_cons_win, theme_splash());
     wprintw(_cons_win, "|  _ \\ / ___) _ \\|  __) _  |  _ \\| |  _) | | |\n");
-    wattroff(_cons_win, COLOUR_SPLASH);
+    wattroff(_cons_win, theme_splash());
 
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_SPLASH);
+    wattron(_cons_win, theme_splash());
     wprintw(_cons_win, "| | | | |  | |_| | | ( ( | | | | | | |_| |_| |\n");
-    wattroff(_cons_win, COLOUR_SPLASH);
+    wattroff(_cons_win, theme_splash());
 
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_SPLASH);
+    wattron(_cons_win, theme_splash());
     wprintw(_cons_win, "| ||_/|_|   \\___/|_|  \\_||_|_| |_|_|\\___)__  |\n");
-    wattroff(_cons_win, COLOUR_SPLASH);
+    wattroff(_cons_win, theme_splash());
 
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_SPLASH);
+    wattron(_cons_win, theme_splash());
     wprintw(_cons_win, "|_|                                    (____/ \n");
-    wattroff(_cons_win, COLOUR_SPLASH);
+    wattroff(_cons_win, theme_splash());
 
     _win_show_time(_cons_win);
     wprintw(_cons_win, "\n");
@@ -1528,14 +1528,14 @@ static void
 _win_show_user(WINDOW *win, const char * const user, const int colour)
 {
     if (colour)
-        wattron(win, COLOUR_THEM);
+        wattron(win, theme_them());
     else
-        wattron(win, COLOUR_ME);
+        wattron(win, theme_me());
     wprintw(win, "%s: ", user);
     if (colour)
-        wattroff(win, COLOUR_THEM);
+        wattroff(win, theme_them());
     else
-        wattroff(win, COLOUR_ME);
+        wattroff(win, theme_me());
 }
 
 static void
@@ -1547,9 +1547,9 @@ _win_show_message(WINDOW *win, const char * const message)
 static void
 _win_show_error_msg(WINDOW *win, const char * const message)
 {
-    wattron(win, COLOUR_ERROR);
+    wattron(win, theme_error());
     wprintw(win, "%s\n", message);
-    wattroff(win, COLOUR_ERROR);
+    wattroff(win, theme_error());
 }
 
 static void
@@ -1591,22 +1591,22 @@ _show_status_string(WINDOW *win, const char * const from,
 
     if (show != NULL) {
         if (strcmp(show, "away") == 0) {
-            wattron(win, COLOUR_AWAY);
+            wattron(win, theme_away());
         } else if (strcmp(show, "chat") == 0) {
-            wattron(win, COLOUR_CHAT);
+            wattron(win, theme_chat());
         } else if (strcmp(show, "dnd") == 0) {
-            wattron(win, COLOUR_DND);
+            wattron(win, theme_dnd());
         } else if (strcmp(show, "xa") == 0) {
-            wattron(win, COLOUR_XA);
+            wattron(win, theme_xa());
         } else if (strcmp(show, "online") == 0) {
-            wattron(win, COLOUR_ONLINE);
+            wattron(win, theme_online());
         } else {
-            wattron(win, COLOUR_OFFLINE);
+            wattron(win, theme_offline());
         }
     } else if (strcmp(default_show, "online") == 0) {
-        wattron(win, COLOUR_ONLINE);
+        wattron(win, theme_online());
     } else {
-        wattron(win, COLOUR_OFFLINE);
+        wattron(win, theme_offline());
     }
 
     wprintw(win, "%s %s", pre, from);
@@ -1623,22 +1623,22 @@ _show_status_string(WINDOW *win, const char * const from,
 
     if (show != NULL) {
         if (strcmp(show, "away") == 0) {
-            wattroff(win, COLOUR_AWAY);
+            wattroff(win, theme_away());
         } else if (strcmp(show, "chat") == 0) {
-            wattroff(win, COLOUR_CHAT);
+            wattroff(win, theme_chat());
         } else if (strcmp(show, "dnd") == 0) {
-            wattroff(win, COLOUR_DND);
+            wattroff(win, theme_dnd());
         } else if (strcmp(show, "xa") == 0) {
-            wattroff(win, COLOUR_XA);
+            wattroff(win, theme_xa());
         } else if (strcmp(show, "online") == 0) {
-            wattroff(win, COLOUR_ONLINE);
+            wattroff(win, theme_online());
         } else {
-            wattroff(win, COLOUR_OFFLINE);
+            wattroff(win, theme_offline());
         }
     } else if (strcmp(default_show, "online") == 0) {
-        wattroff(win, COLOUR_ONLINE);
+        wattroff(win, theme_online());
     } else {
-        wattroff(win, COLOUR_OFFLINE);
+        wattroff(win, theme_offline());
     }
 }
 
@@ -1646,18 +1646,18 @@ static void
 _cons_show_typing(const char * const short_from)
 {
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_TYPING);
+    wattron(_cons_win, theme_typing());
     wprintw(_cons_win, "!! %s is typing a message...\n", short_from);
-    wattroff(_cons_win, COLOUR_TYPING);
+    wattroff(_cons_win, theme_typing());
 }
 
 static void
 _cons_show_incoming_message(const char * const short_from, const int win_index)
 {
     _win_show_time(_cons_win);
-    wattron(_cons_win, COLOUR_INCOMING);
+    wattron(_cons_win, theme_incoming());
     wprintw(_cons_win, "<< incoming from %s (%d)\n", short_from, win_index + 1);
-    wattroff(_cons_win, COLOUR_INCOMING);
+    wattroff(_cons_win, theme_incoming());
 }
 
 static void
@@ -1671,17 +1671,17 @@ _cons_show_contact(PContact contact)
     _win_show_time(_cons_win);
 
     if (strcmp(presence, "online") == 0) {
-        wattron(_cons_win, COLOUR_ONLINE);
+        wattron(_cons_win, theme_online());
     } else if (strcmp(presence, "away") == 0) {
-        wattron(_cons_win, COLOUR_AWAY);
+        wattron(_cons_win, theme_away());
     } else if (strcmp(presence, "chat") == 0) {
-        wattron(_cons_win, COLOUR_CHAT);
+        wattron(_cons_win, theme_chat());
     } else if (strcmp(presence, "dnd") == 0) {
-        wattron(_cons_win, COLOUR_DND);
+        wattron(_cons_win, theme_dnd());
     } else if (strcmp(presence, "xa") == 0) {
-        wattron(_cons_win, COLOUR_XA);
+        wattron(_cons_win, theme_xa());
     } else {
-        wattron(_cons_win, COLOUR_OFFLINE);
+        wattron(_cons_win, theme_offline());
     }
 
     wprintw(_cons_win, "%s", jid);
@@ -1699,17 +1699,17 @@ _cons_show_contact(PContact contact)
     wprintw(_cons_win, "\n");
 
     if (strcmp(presence, "online") == 0) {
-        wattroff(_cons_win, COLOUR_ONLINE);
+        wattroff(_cons_win, theme_online());
     } else if (strcmp(presence, "away") == 0) {
-        wattroff(_cons_win, COLOUR_AWAY);
+        wattroff(_cons_win, theme_away());
     } else if (strcmp(presence, "chat") == 0) {
-        wattroff(_cons_win, COLOUR_CHAT);
+        wattroff(_cons_win, theme_chat());
     } else if (strcmp(presence, "dnd") == 0) {
-        wattroff(_cons_win, COLOUR_DND);
+        wattroff(_cons_win, theme_dnd());
     } else if (strcmp(presence, "xa") == 0) {
-        wattroff(_cons_win, COLOUR_XA);
+        wattroff(_cons_win, theme_xa());
     } else {
-        wattroff(_cons_win, COLOUR_OFFLINE);
+        wattroff(_cons_win, theme_offline());
     }
 }
 

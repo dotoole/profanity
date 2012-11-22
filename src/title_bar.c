@@ -24,6 +24,7 @@
 #include <string.h>
 
 #include "common.h"
+#include "theme.h"
 #include "ui.h"
 
 static WINDOW *title_bar;
@@ -42,7 +43,7 @@ create_title_bar(void)
     int cols = getmaxx(stdscr);
 
     title_bar = newwin(1, cols, 0, 0);
-    wbkgd(title_bar, COLOUR_TITLE_TEXT);
+    wbkgd(title_bar, theme_titlebartext());
     title_bar_title();
     title_bar_set_status(PRESENCE_OFFLINE);
     dirty = TRUE;
@@ -63,7 +64,7 @@ title_bar_resize(void)
     int cols = getmaxx(stdscr);
 
     wresize(title_bar, 1, cols);
-    wbkgd(title_bar, COLOUR_TITLE_TEXT);
+    wbkgd(title_bar, theme_titlebartext());
     wclear(title_bar);
     _title_bar_draw_title();
     _title_bar_draw_status();
@@ -173,9 +174,9 @@ _title_bar_draw_status(void)
 {
     int cols = getmaxx(stdscr);
 
-    wattron(title_bar, COLOUR_TITLE_BRACKET);
+    wattron(title_bar, theme_titlebarbrackets());
     mvwaddch(title_bar, 0, cols - 14, '[');
-    wattroff(title_bar, COLOUR_TITLE_BRACKET);
+    wattroff(title_bar, theme_titlebarbrackets());
 
     if (current_status == PRESENCE_ONLINE) {
         mvwprintw(title_bar, 0, cols - 13, " ...online ");
@@ -191,9 +192,9 @@ _title_bar_draw_status(void)
         mvwprintw(title_bar, 0, cols - 13, " ..offline ");
     }
 
-    wattron(title_bar, COLOUR_TITLE_BRACKET);
+    wattron(title_bar, theme_titlebarbrackets());
     mvwaddch(title_bar, 0, cols - 2, ']');
-    wattroff(title_bar, COLOUR_TITLE_BRACKET);
+    wattroff(title_bar, theme_titlebarbrackets());
 
     dirty = TRUE;
 }

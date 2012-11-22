@@ -39,4 +39,26 @@ void theme_init_colours(void);
 gboolean theme_change(const char * const theme_name);
 void theme_close(void);
 
+int theme_text(void);
+int theme_splash(void);
+int theme_error(void);
+int theme_incoming(void);
+int theme_titlebartext(void);
+int theme_titlebarbrackets(void);
+int theme_statusbartext(void);
+int theme_statusbarbrackets(void);
+int theme_statusbaractive(void);
+int theme_statusbarnew(void);
+int theme_me(void);
+int theme_them(void);
+int theme_roominfo(void);
+int theme_online(void);
+int theme_offline(void);
+int theme_away(void);
+int theme_chat(void);
+int theme_dnd(void);
+int theme_xa(void);
+int theme_typing(void);
+int theme_gone(void);
+
 #endif

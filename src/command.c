@@ -1097,6 +1097,7 @@ _cmd_theme(gchar **args, struct cmd_help_t help)
     if (theme_change(args[0])) {
         win_load_colours();
         prefs_set_theme(args[0]);
+        gui_refresh();
         cons_show("Loaded theme: %s", args[0]);
     } else {
         cons_show("Couldn't find theme: %s", args[0]);

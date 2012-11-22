@@ -63,26 +63,47 @@ static struct colours_t {
         NCURSES_COLOR_T titlebar;
         NCURSES_COLOR_T statusbar;
         NCURSES_COLOR_T titlebartext;
+        gboolean titlebartext_bright;
         NCURSES_COLOR_T titlebarbrackets;
+        gboolean titlebarbrackets_bright;
         NCURSES_COLOR_T statusbartext;
+        gboolean statusbartext_bright;
         NCURSES_COLOR_T statusbarbrackets;
+        gboolean statusbarbrackets_bright;
         NCURSES_COLOR_T statusbaractive;
+        gboolean statusbaractive_bright;
         NCURSES_COLOR_T statusbarnew;
+        gboolean statusbarnew_bright;
         NCURSES_COLOR_T maintext;
+        gboolean maintext_bright;
         NCURSES_COLOR_T splashtext;
+        gboolean splashtext_bright;
         NCURSES_COLOR_T online;
+        gboolean online_bright;
         NCURSES_COLOR_T away;
+        gboolean away_bright;
         NCURSES_COLOR_T xa;
+        gboolean xa_bright;
         NCURSES_COLOR_T dnd;
+        gboolean dnd_bright;
         NCURSES_COLOR_T chat;
+        gboolean chat_bright;
         NCURSES_COLOR_T offline;
+        gboolean offline_bright;
         NCURSES_COLOR_T typing;
+        gboolean typing_bright;
         NCURSES_COLOR_T gone;
+        gboolean gone_bright;
         NCURSES_COLOR_T error;
+        gboolean error_bright;
         NCURSES_COLOR_T incoming;
+        gboolean incoming_bright;
         NCURSES_COLOR_T roominfo;
+        gboolean roominfo_bright;
         NCURSES_COLOR_T me;
+        gboolean me_bright;
         NCURSES_COLOR_T them;
+        gboolean them_bright;
 } colour_prefs;
 
 static NCURSES_COLOR_T _lookup_colour(const char * const colour);
@@ -230,64 +251,295 @@ _load_colours(void)
 
     gchar *titlebartext_val = g_key_file_get_string(theme, "colours", "titlebartext", NULL);
     _set_colour(titlebartext_val, &colour_prefs.titlebartext, COLOR_WHITE);
+    colour_prefs.titlebartext_bright = g_key_file_get_boolean(theme, "colours", "titlebartext_bright", NULL);
 
     gchar *titlebarbrackets_val = g_key_file_get_string(theme, "colours", "titlebarbrackets", NULL);
     _set_colour(titlebarbrackets_val, &colour_prefs.titlebarbrackets, COLOR_CYAN);
+    colour_prefs.titlebarbrackets_bright = g_key_file_get_boolean(theme, "colours", "titlebarbrackets_bright", NULL);
 
     gchar *statusbartext_val = g_key_file_get_string(theme, "colours", "statusbartext", NULL);
     _set_colour(statusbartext_val, &colour_prefs.statusbartext, COLOR_WHITE);
+    colour_prefs.statusbartext_bright = g_key_file_get_boolean(theme, "colours", "statusbartext_bright", NULL);
 
     gchar *statusbarbrackets_val = g_key_file_get_string(theme, "colours", "statusbarbrackets", NULL);
     _set_colour(statusbarbrackets_val, &colour_prefs.statusbarbrackets, COLOR_CYAN);
+    colour_prefs.statusbarbrackets_bright = g_key_file_get_boolean(theme, "colours", "statusbarbrackets_bright", NULL);
 
     gchar *statusbaractive_val = g_key_file_get_string(theme, "colours", "statusbaractive", NULL);
     _set_colour(statusbaractive_val, &colour_prefs.statusbaractive, COLOR_CYAN);
+    colour_prefs.statusbaractive_bright = g_key_file_get_boolean(theme, "colours", "statusbaractive_bright", NULL);
 
     gchar *statusbarnew_val = g_key_file_get_string(theme, "colours", "statusbarnew", NULL);
     _set_colour(statusbarnew_val, &colour_prefs.statusbarnew, COLOR_WHITE);
+    colour_prefs.statusbarnew_bright = g_key_file_get_boolean(theme, "colours", "statusbarnew_bright", NULL);
 
     gchar *maintext_val = g_key_file_get_string(theme, "colours", "maintext", NULL);
     _set_colour(maintext_val, &colour_prefs.maintext, COLOR_WHITE);
+    colour_prefs.maintext_bright = g_key_file_get_boolean(theme, "colours", "maintext_bright", NULL);
 
     gchar *splashtext_val = g_key_file_get_string(theme, "colours", "splashtext", NULL);
     _set_colour(splashtext_val, &colour_prefs.splashtext, COLOR_CYAN);
+    colour_prefs.splashtext_bright = g_key_file_get_boolean(theme, "colours", "splashtext_bright", NULL);
 
     gchar *online_val = g_key_file_get_string(theme, "colours", "online", NULL);
     _set_colour(online_val, &colour_prefs.online, COLOR_GREEN);
+    colour_prefs.online_bright = g_key_file_get_boolean(theme, "colours", "online_bright", NULL);
 
     gchar *away_val = g_key_file_get_string(theme, "colours", "away", NULL);
     _set_colour(away_val, &colour_prefs.away, COLOR_CYAN);
+    colour_prefs.away_bright = g_key_file_get_boolean(theme, "colours", "away_bright", NULL);
 
     gchar *chat_val = g_key_file_get_string(theme, "colours", "chat", NULL);
     _set_colour(chat_val, &colour_prefs.chat, COLOR_GREEN);
+    colour_prefs.chat_bright = g_key_file_get_boolean(theme, "colours", "chat_bright", NULL);
 
     gchar *dnd_val = g_key_file_get_string(theme, "colours", "dnd", NULL);
     _set_colour(dnd_val, &colour_prefs.dnd, COLOR_RED);
+    colour_prefs.dnd_bright = g_key_file_get_boolean(theme, "colours", "dnd_bright", NULL);
 
     gchar *xa_val = g_key_file_get_string(theme, "colours", "xa", NULL);
     _set_colour(xa_val, &colour_prefs.xa, COLOR_CYAN);
+    colour_prefs.xa_bright = g_key_file_get_boolean(theme, "colours", "xa_bright", NULL);
 
     gchar *offline_val = g_key_file_get_string(theme, "colours", "offline", NULL);
     _set_colour(offline_val, &colour_prefs.offline, COLOR_RED);
+    colour_prefs.offline_bright = g_key_file_get_boolean(theme, "colours", "offline_bright", NULL);
 
     gchar *typing_val = g_key_file_get_string(theme, "colours", "typing", NULL);
     _set_colour(typing_val, &colour_prefs.typing, COLOR_YELLOW);
+    colour_prefs.typing_bright = g_key_file_get_boolean(theme, "colours", "typing_bright", NULL);
 
     gchar *gone_val = g_key_file_get_string(theme, "colours", "gone", NULL);
     _set_colour(gone_val, &colour_prefs.gone, COLOR_RED);
+    colour_prefs.gone_bright = g_key_file_get_boolean(theme, "colours", "gone_bright", NULL);
 
     gchar *error_val = g_key_file_get_string(theme, "colours", "error", NULL);
     _set_colour(error_val, &colour_prefs.error, COLOR_RED);
+    colour_prefs.error_bright = g_key_file_get_boolean(theme, "colours", "error_bright", NULL);
 
     gchar *incoming_val = g_key_file_get_string(theme, "colours", "incoming", NULL);
     _set_colour(incoming_val, &colour_prefs.incoming, COLOR_YELLOW);
+    colour_prefs.incoming_bright = g_key_file_get_boolean(theme, "colours", "incoming_bright", NULL);
 
     gchar *roominfo_val = g_key_file_get_string(theme, "colours", "roominfo", NULL);
     _set_colour(roominfo_val, &colour_prefs.roominfo, COLOR_YELLOW);
+    colour_prefs.roominfo_bright = g_key_file_get_boolean(theme, "colours", "roominfo_bright", NULL);
 
     gchar *me_val = g_key_file_get_string(theme, "colours", "me", NULL);
     _set_colour(me_val, &colour_prefs.me, COLOR_YELLOW);
+    colour_prefs.me_bright = g_key_file_get_boolean(theme, "colours", "me_bright", NULL);
 
     gchar *them_val = g_key_file_get_string(theme, "colours", "them", NULL);
     _set_colour(them_val, &colour_prefs.them, COLOR_GREEN);
+    colour_prefs.them_bright = g_key_file_get_boolean(theme, "colours", "them_bright", NULL);
+}
+
+int
+theme_text(void)
+{
+    if (colour_prefs.maintext_bright) {
+        return (COLOR_PAIR(1) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(1));
+    }
+}
+
+int
+theme_splash(void)
+{
+    if (colour_prefs.splashtext_bright) {
+        return (COLOR_PAIR(2) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(2));
+    }
+}
+
+int
+theme_error(void)
+{
+    if (colour_prefs.error_bright) {
+        return (COLOR_PAIR(3) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(3));
+    }
+}
+
+int
+theme_incoming(void)
+{
+    if (colour_prefs.incoming_bright) {
+        return (COLOR_PAIR(4) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(4));
+    }
+}
+
+int
+theme_titlebartext(void)
+{
+    if (colour_prefs.titlebartext_bright) {
+        return (COLOR_PAIR(10) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(10));
+    }
+}
+
+int
+theme_titlebarbrackets(void)
+{
+    if (colour_prefs.titlebarbrackets_bright) {
+        return (COLOR_PAIR(11) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(11));
+    }
+}
+
+int
+theme_statusbartext(void)
+{
+    if (colour_prefs.statusbartext_bright) {
+        return (COLOR_PAIR(20) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(20));
+    }
+}
+
+int
+theme_statusbarbrackets(void)
+{
+    if (colour_prefs.statusbarbrackets_bright) {
+        return (COLOR_PAIR(21) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(21));
+    }
+}
+
+int
+theme_statusbaractive(void)
+{
+    if (colour_prefs.statusbaractive_bright) {
+        return (COLOR_PAIR(22) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(22));
+    }
+}
+
+int
+theme_statusbarnew(void)
+{
+    if (colour_prefs.statusbarnew_bright) {
+        return (COLOR_PAIR(23) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(23));
+    }
+}
+
+int
+theme_me(void)
+{
+    if (colour_prefs.me_bright) {
+        return (COLOR_PAIR(30) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(30));
+    }
+}
+
+int
+theme_them(void)
+{
+    if (colour_prefs.them_bright) {
+        return (COLOR_PAIR(31) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(31));
+    }
+}
+
+int
+theme_roominfo(void)
+{
+    if (colour_prefs.roominfo_bright) {
+        return (COLOR_PAIR(40) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(40));
+    }
+}
+
+int
+theme_online(void)
+{
+    if (colour_prefs.online_bright) {
+        return (COLOR_PAIR(50) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(50));
+    }
+}
+
+int
+theme_offline(void)
+{
+    if (colour_prefs.offline_bright) {
+        return (COLOR_PAIR(51) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(51));
+    }
+}
+
+int
+theme_away(void)
+{
+    if (colour_prefs.away_bright) {
+        return (COLOR_PAIR(52) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(52));
+    }
+}
+
+int
+theme_chat(void)
+{
+    if (colour_prefs.chat_bright) {
+        return (COLOR_PAIR(53) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(53));
+    }
+}
+
+int
+theme_dnd(void)
+{
+    if (colour_prefs.dnd_bright) {
+        return (COLOR_PAIR(54) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(54));
+    }
+}
+
+int
+theme_xa(void)
+{
+    if (colour_prefs.xa_bright) {
+        return (COLOR_PAIR(55) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(55));
+    }
+}
+
+int
+theme_typing(void)
+{
+    if (colour_prefs.typing_bright) {
+        return (COLOR_PAIR(60) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(60));
+    }
+}
+
+int
+theme_gone(void)
+{
+    if (colour_prefs.gone_bright) {
+        return (COLOR_PAIR(61) | A_BOLD);
+    } else {
+        return (COLOR_PAIR(61));
+    }
 }
